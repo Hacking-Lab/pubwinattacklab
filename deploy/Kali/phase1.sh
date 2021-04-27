@@ -10,7 +10,6 @@ sed -i "s/kali/${hostname}/" /etc/hosts
 
 # Updating System
 wget -q -O - https://archive.kali.org/archive-key.asc | apt-key add
-echo "`date`: starting system update" > /tmp/phase1.log
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 
@@ -19,7 +18,8 @@ apt-get -qy update
 echo "`date`: finished system upgrade" >> /tmp/phase1.log
 
 echo "`date`: starting system upgrade" >> /tmp/phase1.log
-apt-get -qy -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade
+#apt-get -qy -o "Dpkg::Options::=--force-confdef" -o "Dpkg::Options::=--force-confold" upgrade
+#apt-get -qy -o "Dpkg::Options::=--force-confdef" upgrade
 echo "`date`: finished system upgrade" >> /tmp/phase1.log
 
 echo "`date`: starting autoclean" >> /tmp/phase1.log
@@ -30,5 +30,4 @@ echo "`date`: finished autoclean" >> /tmp/phase1.log
 echo "`date`: starting tool installation" >> /tmp/phase1.log
 ./phase2.sh
 echo "`date`: finished tool installation" >> /tmp/phase1.log
-
 
