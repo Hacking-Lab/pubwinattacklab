@@ -15,6 +15,7 @@ sed -i "s/kali/${hostname}/" /etc/hosts
 wget -q -O - https://archive.kali.org/archive-key.asc | apt-key add
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
+apt-mark hold waagent
 
 echo "`date`: starting system update" >> $myhome/phase2.log
 apt-get -qy update
