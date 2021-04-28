@@ -26,18 +26,28 @@ apt-get -qy -o "Dpkg::Options::=--force-confdef" upgrade
 echo "`date`: finished system upgrade" >> $myhome/phase2.log
 
 echo "`date`: starting autoclean" >> $myhome/phase2.log
-apt-get -qy autoclean
+apt-get -qy -o "Dpkg::Options::=--force-confdef" autoclean
 echo "`date`: finished autoclean" >> $myhome/phase2.log
 
 echo "`date`: starting autoremove" >> $myhome/phase2.log
-apt-get -qy autoremove
+apt-get -qy -o "Dpkg::Options::=--force-confdef" autoremove
 echo "`date`: finished autoremove" >> $myhome/phase2.log
+
+echo "`date`: starting system update" >> $myhome/phase2.log
+apt-get -qy update
+echo "`date`: finished system update" >> $myhome/phase2.log
+
+echo "`date`: starting system upgrade" >> $myhome/phase2.log
+apt-get -qy -o "Dpkg::Options::=--force-confdef" upgrade
+echo "`date`: finished system upgrade" >> $myhome/phase2.log
 
 
 # Running Kali Tool Installation
 echo "`date`: starting tool installation" >> $myhome/phase2.log
 ./phase3.sh
 echo "`date`: finished tool installation" >> $myhome/phase2.log
+echo "`date`: ============ SUCCESS ===============" >> $myhome/phase2.log
+
 
 
 
