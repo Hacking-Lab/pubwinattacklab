@@ -11,4 +11,4 @@ sleep 3
 echo "`date`: end of script phase1.sh" >> $myhome/phase1.log
 echo "`date`: process list" >> $myhome/phase1.log
 echo "`date`: =======================================" >> $myhome/phase1.log
-echo "`ps -ef`  >> $myhome/phase1.log
+ps -ef  >> $myhome/phase1.log

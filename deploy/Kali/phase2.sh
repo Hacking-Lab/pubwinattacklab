@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/sh
 
 myhome="/opt/pubwinattacklab/deploy/Kali"
 cd $myhome
-source $myhome/setup.env
+. $myhome/setup.env
 env > $myhome/allenv.env
 
 echo "`date`: phase2 script executed" >> $myhome/phase2.log
