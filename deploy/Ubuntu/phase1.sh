@@ -1,6 +1,6 @@
 #!/bin/bash
 
-myhome="/opt/pubwinattacklab/deploy/Kali"
+myhome="/opt/pubwinattacklab/deploy/Ubuntu"
 cd $myhome
 source $myhome/setup.env
 env > $myhome/allenv.env

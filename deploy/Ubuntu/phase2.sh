@@ -1,18 +1,13 @@
 #!/bin/bash
 
-myhome="/opt/pubwinattacklab/deploy/Kali"
+myhome="/opt/pubwinattacklab/deploy/Ubuntu"
 cd $myhome
 source $myhome/setup.env
 env > $myhome/allenv.env
 
 echo "`date`: phase2 script executed" >> $myhome/phase2.log
 
-# change local hosts file
-echo "`date`: change hosts file" >> $myhome/phase2.log
-sed -i "s/kali/${hostname}/" /etc/hosts
-
 # Updating System
-wget -q -O - https://archive.kali.org/archive-key.asc | apt-key add
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
 
@@ -33,7 +28,7 @@ apt-get -qy autoremove
 echo "`date`: finished autoremove" >> $myhome/phase2.log
 
 
-# Running Kali Tool Installation
+# Running phase3 scripts Installation
 echo "`date`: starting tool installation" >> $myhome/phase2.log
 ./phase3.sh
 echo "`date`: finished tool installation" >> $myhome/phase2.log
