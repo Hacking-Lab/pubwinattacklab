@@ -54,6 +54,7 @@ services:
     hostname: kibana
     restart: always
     labels:
+      - "traefik.enable=true"
       - "traefik.port=5601"
       - "traefik.frontend.rule=Host:kibana.winattacklab.local"
       - "traefik.protocol=http"
