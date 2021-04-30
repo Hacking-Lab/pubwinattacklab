@@ -1,6 +1,0 @@
-{
-    "apiUrl": "http://websocketd/static",
-    "wsUrl": "ws://localhost/api",
-    "verbose": "true",
-    "appName": "Attack Launcher"
-}

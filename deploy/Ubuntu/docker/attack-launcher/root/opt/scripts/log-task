@@ -1,9 +1,79 @@
 #!/bin/bash
 
-cd /winattacklab/
+source /winattacklab/.deploy
+source /winattacklab/.destroy
+source /winattacklab/proxy.env
 
-echo "=========================="
-echo "running the script /opt/scripts/log on the server"
-echo "=========================="
+cd /winattacklab
 
-ps -ef 
+echo "`date`: Deployment Manager Version 2021-04-16-R104"
+sleep 2
+
+
+case "$DEPLOYED" in
+        init)
+            echo "`date`: terraform deploy not yet startet"
+            if [ -e /winattacklab/terraform.end ]; then
+                /opt/scripts/show-when-cron-will-destroy-infrastructure
+            fi
+            ;;
+
+        deploying)
+            ps -ef|grep "/usr/bin/terraform apply" | grep -v grep > /dev/null
+            RESULT=$?
+            if [ $RESULT -eq 0 ]; then
+                echo "`date`: terraform deploy is still running"
+            else
+                echo "`date`: terraform apply has finished"
+            fi
+
+            echo "====== Azure Resource Group ====="                                                                                                    
+	    terraform state show 'azurerm_resource_group.winattacklabgroup' |grep id  | cut -d'/' -f5- | cut -d '"' -f1
+            echo "================================="   
+            sleep 3 
+
+	    echo "`date`: terraform log"
+
+	    echo "====== terraform log ====="
+	    terraform output -no-color
+
+	    echo "====== terraform version ====="
+	    terraform version -no-color
+
+            if [ -e /winattacklab/terraform.end ]; then
+                /opt/scripts/show-when-cron-will-destroy-infrastructure
+            fi
+
+            ;;
+
+        finished)
+	    echo "`date`: terraform deploy has been finished"
+
+            echo "====== Azure Resource Group ====="                                                                                                    
+	    terraform state show 'azurerm_resource_group.winattacklabgroup' |grep id  | cut -d'/' -f5- | cut -d '"' -f1
+            echo "================================="   
+            sleep 3 
+
+	    echo "`date`: terraform log"
+
+	    echo "====== terraform log ====="
+	    terraform output -no-color
+
+	    echo "====== terraform version ====="
+	    terraform version -no-color
+
+            if [ -e /winattacklab/terraform.end ]; then
+                /opt/scripts/show-when-cron-will-destroy-infrastructure
+            fi
+
+
+            ;;
+
+        *)
+            exit 1
+
+esac
+
+
+echo "====== history  ====="
+tail -n +0 -f /winattacklab/logs/terraform-destroy.log

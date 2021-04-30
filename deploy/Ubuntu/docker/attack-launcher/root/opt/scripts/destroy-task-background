@@ -46,8 +46,7 @@ case "$DEPLOYED" in
                     echo "`date`: terraform destroy --auto-approve started" >> /winattacklab/logs/terraform-status.log
                     echo "`date`: terraform destroy --auto-approve started" >> /winattacklab/logs/terraform-destroy.log
                     echo "`date`: terraform destroy log" >> /winattacklab/logs/terraform-destroy.log
-                    # terraform destroy -no-color -auto-approve -compact-warnings 2>&1 | egrep -v '\$PlainPassword =|\$labdcadminpw =|\$password =' | tee -a /winattacklab/logs/terraform-destroy.log
-                    screen -d -m -t destroy-task-background /opt/scripts/destroy-task-background &
+                    terraform destroy -no-color -auto-approve -compact-warnings 2>&1 | egrep -v '\$PlainPassword =|\$labdcadminpw =|\$password =' | tee -a /winattacklab/logs/terraform-destroy.log
                     echo "`date`: terraform destroy --auto-approve finished" >> /winattacklab/logs/terraform-status.log
                     ;;
                 running)
@@ -66,8 +65,7 @@ case "$DEPLOYED" in
 				echo "`date`: destroy was not yet successul: infastructure still running"
 				echo "`date`: destroy was not yet successul: infrastructure still running" >> /winattacklab/logs/terraform-destroy.log
 				echo "`date`: running terraform destry again" >> /winattacklab/logs/terraform-destroy.log
-                    		screen -d -m -t destroy-task-background /opt/scripts/destroy-task-background &
-				# terraform destroy -no-color --auto-approve 2>&1 | egrep -v '\$PlainPassword =|\$labdcadminpw =|\$password =' >> /winattacklab/logs/terraform-destroy.log
+				terraform destroy -no-color --auto-approve 2>&1 | egrep -v '\$PlainPassword =|\$labdcadminpw =|\$password =' >> /winattacklab/logs/terraform-destroy.log
 			else
 				echo "`date`: infrastructure is fully down"
 				echo "`date`: infrastructure is fully down" >>  /winattacklab/logs/terraform-destroy.log
