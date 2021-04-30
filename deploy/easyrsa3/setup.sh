@@ -1,7 +1,16 @@
 #!/bin/bash
+# setup PKI
 ./easyrsa --batch init-pki
 ./easyrsa --batch build-ca nopass
+
+# create traefik.cert
 ./easyrsa --batch gen-req traefik nopass
 ./easyrsa --batch sign-req server traefik
 
-
+# create wildcard cert
+FQDN="winattacklab.local"
+CERT_FILENAME="wildcard.${FQDN}"
+CERT_COMMONNAME="*.${FQDN}"
+./easyrsa --batch --req-cn="${CERT_COMMONNAME}" gen-req ${CERT_FILENAME} nopass
+./easyrsa --batch sign-req server ${CERT_FILENAME}
+./easyrsa --batch gen-dh
