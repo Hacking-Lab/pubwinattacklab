@@ -1,97 +1,16 @@
 #!/bin/bash
 
-source /winattacklab/.deploy
-source /winattacklab/proxy.env
-
 cd /winattacklab/
 
-echo "`date`: Deployment Manager Version 2021-04-16-R104"
-sleep 2
+echo "=========================="
+echo "SSH attack"
+echo "=========================="
+sleep 1
 
-echo "`date`: terraform deploy button clicked" >> /winattacklab/logs/terraform-deploy.log
-
-case "$DEPLOYED" in
-        init)
-            echo "DEPLOYED=\"deploying\"" > /winattacklab/.deploy
-            echo "DESTROYED=\"init\"" > /winattacklab/.destroy
-            echo "`date`: terraform apply --auto-approve"
-            echo "`date`: please wait 30 seconds until the output below appears ..."
-            echo "`date`: terraform apply --auto-approve started" >> /winattacklab/logs/terraform-deploy.log
-            echo "`date`: terraform apply log" >> /winattacklab/logs/terraform-deploy.log
-            echo "terraform deploy has been executed on `date`" > /tmp/start-date.log
-            
-            START=$(date +%s);
-            # 24h
-            # DUR=68400
-
-            # 2h (testing)
-            DUR=43200
-            END=$((START+DUR))
-            echo $START > /winattacklab/terraform.start
-            echo $END > /winattacklab/terraform.end
-            echo "`date`: infrastructure will run until: `date -d @$((START+DUR))`"
-
-            # terraform apply -auto-approve -no-color -compact-warnings /winattacklab/terraform-plan 2>&1 | egrep -v '\$PlainPassword =|\$labdcadminpw =|\$password =' | tee -a /winattacklab/logs/terraform-deploy.log
-            screen -d -m -t deploy-task-background /opt/scripts/deploy-task-background &
-	    echo "`date`: terraform apply has been executed" >> /winattacklab/logs/terraform-deploy.log
-	    echo "`date`: terraform apply has been executed"
-            ;;
-
-        deploying)
-            ps -ef|grep "/usr/bin/terraform apply"|grep -v grep > /dev/null
-            RESULT=$?
-            if [ $RESULT -eq 0 ]; then
-                echo "`date`: terraform apply is still running" 
-                echo "`date`: terraform apply is still running" >> /winattacklab/logs/terraform-deploy.log
-            else
-                echo "`date`: terraform apply job has finished"
-                echo "`date`: terraform apply job has finished" >> /winattacklab/logs/terraform-deploy.log
-		terraform state show 'azurerm_resource_group.winattacklabgroup' >> /winattacklab/logs/terraform-deploy.log
-		R1=$?
-		if [ $R1 -eq 0 ]; then
-			echo "`date`: deploy was successful: infrastructure running"
-			echo "`date`: deploy was successful: infrastructure running" >> /winattacklab/logs/terraform-deploy.log
-		else
-			echo "`date`: infrastructure is not yet up and running"
-			echo "`date`: infrastructure is not yet up and running" >> /winattacklab/logs/terraform-deploy.log
-		fi    
-
-            fi
-
-            echo "====== Azure Resource Group ====="                                                                                                    
-	    terraform state show 'azurerm_resource_group.winattacklabgroup' |grep id  | cut -d'/' -f5- | cut -d '"' -f1
-            echo "================================="   
-            sleep 3 
-
-	    echo "`date`: opening log"
-            sleep 5
-            tail -n +0 -f /winattacklab/logs/terraform-deploy.log
-            ;;
-
-        finished)
-            echo "====== auto deploy ====="
-            echo "`date`: terraform deploy has been finished"
-            echo "`date`: terraform deploy has been finished" >> /winattacklab/logs/terraform-deploy.log
-
-            echo "====== Azure Resource Group ====="                                                                                                    
-	    terraform state show 'azurerm_resource_group.winattacklabgroup' |grep id  | cut -d'/' -f5- | cut -d '"' -f1
-            echo "================================="   
-            sleep 3 
-
-
-            if [ -e /winattacklab/terraform.end ]; then
-                /opt/scripts/show-when-cron-will-destroy-infrastructure
-            fi
-	    echo "`date`: opening deploy log"
-            sleep 5
-            cat /winattacklab/logs/terraform-deploy.log
-            echo "`date`: terraform deploy has been finished"
-            ;;
-
-        *)
-            exit 1
-
-esac
-
+echo "launching ssh attack"
+client_ip=10.0.1.15
+for (( i=0; i<10; ++i)); do
+    ssh -o "StrictHostKeyChecking no" john@$client_ip
+done
 
 

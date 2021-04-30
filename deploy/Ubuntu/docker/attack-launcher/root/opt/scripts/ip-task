@@ -3,7 +3,8 @@
 cd /winattacklab/
 
 echo "=========================="
-echo "running the script /opt/scripts/log on the server"
+echo "running the script /opt/scripts/ipaddresses on the server"
 echo "=========================="
 
-ps -ef 
+ifconfig -a
+
