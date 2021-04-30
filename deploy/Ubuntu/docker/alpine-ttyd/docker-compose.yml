@@ -3,6 +3,9 @@ version: '3.4'
 services:
   alpine-ttyd:
     image: hackinglab/alpine-ttyd:latest
+    environment:
+      - "HL_USER_USERNAME=hacker"
+      - "HL_USER_PASSWORD=compass"
     labels:
       - "traefik.port=7681"
       - "traefik.frontend.rule=Host:ttyd.winattacklab.local"
