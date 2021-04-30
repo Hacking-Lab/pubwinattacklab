@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  alpine-ttyd:
+    image: hackinglab/alpine-ttyd:latest
+    labels:
+      - "traefik.port=7681"
+      - "traefik.frontend.rule=Host:ttyd.winattacklab.local"
+      - "traefik.protocol=http"
+

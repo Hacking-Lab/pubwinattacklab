@@ -14,8 +14,9 @@ cd /opt/pubwinattacklab/deploy/easyrsa3
 echo "`date`: create directory /opt/applic" >> $myhome/phase3.log
 mkdir -p /opt/applic/traefik
 cd /opt/applic/traefik
-wget https://github.com/traefik/traefik/releases/download/v1.7.30/traefik_linux-amd64
+wget -q https://github.com/traefik/traefik/releases/download/v1.7.30/traefik_linux-amd64
 chmod +x ./traefik_linux-amd64
+cp /opt/pubwinattacklab/deploy/traefik/traefik.toml .
 
 
 
