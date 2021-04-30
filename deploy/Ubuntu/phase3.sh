@@ -31,7 +31,7 @@ cd /opt/applic/
 git clone https://github.com/wazuh/wazuh-docker.git -b v4.1.2 --depth=1
 cd ./wazuh-docker/
 cp docker-compose.yml docker.compose.yml.ori
-cp $myhome/wazuh/docker-compose.yml .
+cp $myhome/docker/wazuh/docker-compose.yml .
 echo "`date`: starting wazuh" >> $myhome/phase3.log
 docker-compose up -d
 
