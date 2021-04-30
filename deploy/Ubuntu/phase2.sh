@@ -11,6 +11,7 @@ echo "`date`: phase2 script executed" >> $myhome/phase2.log
 # change local hosts file
 echo "`date`: change hosts file" >> $myhome/phase2.log
 sed -i "s/ubuntu/${hostname}/" /etc/hosts
+echo "10.0.1.13         ${hostname}" >> /etc/hosts
 
 
 tooldir=/home/${admin_username}/tools
@@ -34,7 +35,7 @@ apt-cache policy docker-ce
 apt install docker-ce -yq
 
 echo "`date`: install docker-compose" >> $myhome/phase2.log
-curl -L "https://github.com/docker/compose/releases/download/1.28.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose -y
+curl -L "https://github.com/docker/compose/releases/download/1.28.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 apt install python3-pip -y
