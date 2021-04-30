@@ -18,7 +18,14 @@ cd /opt/applic/traefik
 wget -q https://github.com/traefik/traefik/releases/download/v1.7.30/traefik_linux-amd64
 chmod +x ./traefik_linux-amd64
 cp $myhome/traefik/traefik.toml .
+cp $myhome/traefik/traefik.service /etc/systemd/system
+systemctl daemon-reload
+systemctl start traefik.service
+systemctl enable traefik.service
 
+# Setup ttyd docker daemon
+cd $myhome/docker/alpine-ttyd
+docker-compose up -d
 
 # Setup Docker
 echo "`date`: tweak kernel for wazuh" >> $myhome/phase3.log
