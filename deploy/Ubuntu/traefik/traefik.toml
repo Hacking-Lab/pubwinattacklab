@@ -122,6 +122,5 @@ filePath = "/var/log/traefik/access.log"
 endpoint = "unix:///var/run/docker.sock"
 domain = "winattacklab.local"
 watch = true
-exposedByDefault = true
-
+exposedByDefault = false
 
