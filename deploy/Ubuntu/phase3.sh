@@ -27,6 +27,10 @@ systemctl enable traefik.service
 cd $myhome/docker/alpine-ttyd
 docker-compose up -d
 
+# Setup attack-launcher
+cd $myhome/docker/attack-launcher
+docker-compose up -d
+
 # Setup Docker
 echo "`date`: tweak kernel for wazuh" >> $myhome/phase3.log
 # Wazuh https://documentation.wazuh.com/current/docker/wazuh-container.html

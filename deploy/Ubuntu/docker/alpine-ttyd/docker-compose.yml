@@ -3,6 +3,7 @@ version: '3.4'
 services:
   alpine-ttyd:
     image: hackinglab/alpine-ttyd:latest
+    restart: always
     environment:
       - "HL_USER_USERNAME=hacker"
       - "HL_USER_PASSWORD=compass"
