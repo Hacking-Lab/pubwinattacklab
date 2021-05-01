@@ -17,11 +17,18 @@ mkdir -p /opt/applic/traefik
 cd /opt/applic/traefik
 wget -q https://github.com/traefik/traefik/releases/download/v1.7.30/traefik_linux-amd64
 chmod +x ./traefik_linux-amd64
-cp $myhome/traefik/traefik.toml .
-cp $myhome/traefik/traefik.service /etc/systemd/system
+cp $myhome/traefik/traefik.toml /opt/applic/traefik/traefik.toml
+cp $myhome/traefik/traefik.service /etc/systemd/system/traefik.service
 systemctl daemon-reload
+sleep 3
+echo "`date`: before starting traefik" >> $myhome/phase3.log
 systemctl start traefik.service
+echo "`date`: after starting traefik" >> $myhome/phase3.log
+ps -ef |grep traefik >> $myhome/phase3.log
+echo "`date`: enabling traefik" >> $myhome/phase3.log
 systemctl enable traefik.service
+echo "`date`: status traefik" >> $myhome/phase3.log
+systemctl status traefik.service >> $myhome/phase3.log
 
 # Setup ttyd docker daemon
 cd $myhome/docker/alpine-ttyd
