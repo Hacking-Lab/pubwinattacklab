@@ -21,6 +21,12 @@ cp $myhome/traefik/traefik.toml /opt/applic/traefik/traefik.toml
 cp $myhome/traefik/traefik.service /etc/systemd/system/traefik.service
 systemctl daemon-reload
 sleep 3
+
+echo "`date`: manually starting traefik the first time and killing it afterwards" >> $myhome/phase3.log
+/opt/applic/traefik/traefik_linux-amd64 -c /opt/applic/traefik/traefik.toml &
+sleep 1
+kill -9 `pgrep traefik`
+
 echo "`date`: before starting traefik" >> $myhome/phase3.log
 systemctl start traefik.service
 echo "`date`: after starting traefik" >> $myhome/phase3.log
